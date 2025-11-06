@@ -1,0 +1,1 @@
+export {keyIsLink} from "./keyIsLink"
