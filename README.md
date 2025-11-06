@@ -2,6 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/key-is-link)](https://www.npmjs.com/package/key-is-link)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![test project](https://img.shields.io/badge/test--project-repo-blue)](https://github.com/Ivex0002/key-is-link-test-project)
 
 ### Type-safe REST API
 
