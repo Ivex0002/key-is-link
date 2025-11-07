@@ -2,6 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/key-is-link)](https://www.npmjs.com/package/key-is-link)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![test project](https://img.shields.io/badge/test--project-repo-blue)](https://github.com/Ivex0002/key-is-link-test-project)
 
 ### Type-safe REST API
 
@@ -15,6 +16,10 @@
 ```bash
 npm install key-is-link
 ```
+
+## What can you do with this lib
+![Honeycam 2025-11-07 13-19-46](https://github.com/user-attachments/assets/87104dde-9c92-48cd-a2fe-5ce6d53503d6)
+
 
 ## Quick Start
 
