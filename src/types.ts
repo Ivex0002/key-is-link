@@ -9,12 +9,19 @@ export type HttpMethod =
 
 // HttpMethod 일때 req 유무에 따른 분기처리
 type MethodHandler<T, Config> =
+  // 먼저 no-req (단순 0인자): config조차 없이 단순 호출
   T extends () => { res: infer S }
-    ? (config?: Config) => Promise<S>
+    ? () => Promise<S>
+  : T extends () => {}
+    ? () => Promise<void>
+  // 그 다음 null req 케이스: body 없음, null 명시 강제로 config 보내기
+  : T extends (req?: null) => { res: infer S }
+    ? (data?: null, config?: Config) => Promise<S>
+  : T extends (req?: null) => {}
+    ? (data?: null, config?: Config) => Promise<void>
+  // 마지막 with-req: body 있음
   : T extends (req: infer Q) => { res: infer S }
     ? (data?: Q, config?: Config) => Promise<S>
-  : T extends () => {}
-    ? (config?: Config) => Promise<void>
   : T extends (req: infer Q) => {}
     ? (data?: Q, config?: Config) => Promise<void>
   : never;
