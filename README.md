@@ -17,6 +17,10 @@
 npm install key-is-link
 ```
 
+## What can you do with this lib
+![Honeycam 2025-11-07 13-19-46](https://github.com/user-attachments/assets/87104dde-9c92-48cd-a2fe-5ce6d53503d6)
+
+
 ## Quick Start
 
 ```ts
