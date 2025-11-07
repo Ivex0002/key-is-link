@@ -12,11 +12,11 @@ type MethodHandler<T, Config> =
   T extends () => { res: infer S }
     ? (config?: Config) => Promise<S>
   : T extends (req: infer Q) => { res: infer S }
-    ? (data: Q, config?: Config) => Promise<S>
+    ? (data?: Q, config?: Config) => Promise<S>
   : T extends () => {}
     ? (config?: Config) => Promise<void>
   : T extends (req: infer Q) => {}
-    ? (data: Q, config?: Config) => Promise<void>
+    ? (data?: Q, config?: Config) => Promise<void>
   : never;
 
 
