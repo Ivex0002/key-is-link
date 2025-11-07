@@ -9,7 +9,7 @@ export type HttpMethod =
 
 // HttpMethod 일때 req 유무에 따른 분기처리
 type MethodHandler<T, Config> = T extends (...args: infer Args) => infer Ret
-  ? Args["length"] extends 0
+  ? Args extends []
     ? Ret extends { res: infer S }
       ? () => Promise<S>
       : () => Promise<void>
