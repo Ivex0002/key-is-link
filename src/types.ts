@@ -8,23 +8,21 @@ export type HttpMethod =
   | "OPTIONS";
 
 // HttpMethod 일때 req 유무에 따른 분기처리
-type MethodHandler<T, Config> =
-  // : 데이터 없이 config만 – null/config 강제
-  T extends (req: null, config: Config) => { res: infer S }
-    ? (data: null, config: Config) => Promise<S>
-    : T extends (req: null, config: Config) => {}
-    ? (data: null, config: Config) => Promise<void>
-    : // no-req – 단순 호출
-    T extends () => { res: infer S }
-    ? () => Promise<S>
-    : T extends () => {}
-    ? () => Promise<void>
-    : // with-req - 데이터, config 호출 가능
-    T extends (req: infer Q) => { res: infer S }
-    ? (data?: Q, config?: Config) => Promise<S>
-    : T extends (req: infer Q) => {}
-    ? (data?: Q, config?: Config) => Promise<void>
-    : never;
+type MethodHandler<T, Config> = T extends (...args: infer Args) => infer Ret
+  ? Args["length"] extends 0
+    ? Ret extends { res: infer S }
+      ? () => Promise<S>
+      : () => Promise<void>
+    : Args extends [null, Config]
+    ? Ret extends { res: infer S }
+      ? (data: null, config: Config) => Promise<S>
+      : (data: null, config: Config) => Promise<void>
+    : Args extends [infer Q]
+    ? Ret extends { res: infer S }
+      ? (data?: Q, config?: Config) => Promise<S>
+      : (data?: Q, config?: Config) => Promise<void>
+    : never
+  : never;
 
 // src\api\apiTree.ts 타입 지정용
 // 들어온 타입객체 키값에 따른 분기처리
