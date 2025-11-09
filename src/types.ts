@@ -9,12 +9,12 @@ export type HttpMethod =
 
 type FuncType<Args, S, Config> = Args extends []
   ? () => Promise<S>
-  : Args extends [infer Q]
-  ? (data?: Q) => Promise<S>
   : Args extends [null, Config | undefined]
   ? (data: null, config?: Config) => Promise<S>
   : Args extends [infer Q, Config | undefined]
-  ? (data?: Q, config?: Config) => Promise<S>
+  ? (data: Q, config?: Config) => Promise<S>
+  : Args extends [infer Q]
+  ? (data: Q) => Promise<S>
   : never;
 
 // HttpMethod 일때 req 유무에 따른 분기처리
