@@ -7,29 +7,21 @@ export type HttpMethod =
   | "HEAD"
   | "OPTIONS";
 
+type FuncType<Args, S, Config> = Args extends []
+  ? () => Promise<S>
+  : Args extends [infer Q]
+  ? (data?: Q) => Promise<S>
+  : Args extends [null, Config | undefined]
+  ? (data: null, config?: Config) => Promise<S>
+  : Args extends [infer Q, Config | undefined]
+  ? (data?: Q, config?: Config) => Promise<S>
+  : never;
+
 // HttpMethod 일때 req 유무에 따른 분기처리
 type MethodHandler<T, Config> = T extends (...args: infer Args) => infer Ret
-  ? Args extends []
-    ? Ret extends { res: infer S }
-      ? () => Promise<S>
-      : () => Promise<void>
-    : Args extends [infer First, ...infer Rest]
-      ? [First] extends [null]
-        ? Rest extends [infer OptionalConfig] 
-          ? OptionalConfig extends Config | undefined 
-            ? Ret extends { res: infer S }
-              ? (data: null, config?: Config) => Promise<S>
-              : (data: null, config?: Config) => Promise<void>
-            : never
-          : never
-        : Args extends [infer Q, infer OptionalConfig] 
-          ? OptionalConfig extends Config | undefined
-            ? Ret extends { res: infer S }
-              ? (data?: Q, config?: Config) => Promise<S>
-              : (data?: Q, config?: Config) => Promise<void>
-            : never
-          : never
-      : never
+  ? Ret extends { res: infer S }
+    ? FuncType<Args, S, Config>
+    : FuncType<Args, void, Config>
   : never;
 
 // src\api\apiTree.ts 타입 지정용
